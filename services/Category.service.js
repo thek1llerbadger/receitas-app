@@ -7,7 +7,7 @@ export async function getCategories() {
             method: 'GET'
         })
         const data = await response.json()
-        return data.data
+        return data
     } catch (e) {
 
     }
@@ -26,6 +26,39 @@ export async function createCategory(category) {
         const data = await response.json()
         return data
 
+    } catch (e) {
+
+    }
+}
+export async function updateCategory(id, category) {
+    const request = `${url}/categorias/${id}`
+
+    try {
+        const response = await fetch(request, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(category)
+        })
+
+        const data = await response.json()
+        return data
+    } catch (e) {
+
+    }
+}
+
+export async function deleteCategory(id, category) {
+    const request = `${url}/categorias/${id}`
+
+    try {
+        const response = await fetch(request, {
+            method: 'DELETE'
+        })
+
+        const data = await response.json()
+        return data
     } catch (e) {
 
     }

@@ -7,6 +7,7 @@ import AddCategory from "../components/AddCategory";
 export default function Categories({navigation}) {
     const [view, setView] = useState('list')
     const [categories, setCategories] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState()
 
     const loadCategories = async () => {
         const data = await getCategories()
@@ -28,11 +29,16 @@ export default function Categories({navigation}) {
                     {item.nome}
                 </Text>
 
-                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={style.button} onPress={() => {
+                    setView('form')
+                    setSelectedCategory(item)
+                }}>
                     <Text style={style.textButton}>Editar</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={style.button} onPress={() => {
+                    
+                }}>
                     <Text style={style.textButton}>Deletar</Text>
                 </TouchableOpacity>
 
@@ -59,11 +65,15 @@ export default function Categories({navigation}) {
                 </View>
             ) : (
                 <View>
-                    <TouchableOpacity style={style.button} onPress={() => setView('list')}>
+                    <TouchableOpacity style={style.button} onPress={() => {
+                        setView('list')
+                        setSelectedCategory(null)
+                        loadCategories()
+                    }}>
                         <Text style={style.textButton}>Ver Categorias</Text>
                     </TouchableOpacity>
 
-                    <AddCategory></AddCategory>
+                    <AddCategory categoryToEdit={selectedCategory}></AddCategory>
                 </View>
             )}
         </ScrollView>

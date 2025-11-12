@@ -3,8 +3,19 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Picker, TextInput } from "react-native";
 import { createCategory } from "../services/Category.service";
 
-export default function AddCategory() {
+export default function AddCategory({ categoryToEdit }) {
     const [nome, setNome] = useState('')
+    const [editingID, setEditingID] = useState('')
+
+    useEffect(() => {
+        console.log(categoryToEdit);
+        if (categoryToEdit){
+            setNome(categoryToEdit.nome)
+            setEditingID(categoryToEdit.id)
+        } else {
+            clearForm()
+        }
+    }, [])
 
     async function save() {
         const obj = {
@@ -13,7 +24,12 @@ export default function AddCategory() {
 
         try {
             clearForm()
-            const response = await createCategory(obj)
+
+            if (editingID){
+                const response = await updateCategory(editingID, obj)
+            } else {
+                const response = await createCategory(obj)
+            }
         } catch {
             
         }
@@ -22,6 +38,7 @@ export default function AddCategory() {
 
     function clearForm() {
         setNome('')
+        setEditingID('')
     }
 
     return (

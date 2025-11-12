@@ -30,3 +30,21 @@ export async function createUser(user) {
 
     }
 }
+
+export async function updateUser(user) {
+    const request = `${url}/usuarios`;
+    try {
+        const response = await fetch(request, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        const data = await response.json()
+        return data
+
+    } catch (e) {
+
+    }
+}
