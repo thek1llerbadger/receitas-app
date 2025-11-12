@@ -8,6 +8,7 @@ import { getRecipes } from "../services/Recipes.service";
 export default function Recipes({navigation}) {
     const [view, setView] = useState('list')
     const [recipes, setRecipes] = useState([])
+    const [selectedRecipe, setSelectedRecipe] = useState()
 
     const loadRecipes = async () => {
         const data = await getRecipes()
@@ -41,7 +42,10 @@ export default function Recipes({navigation}) {
                     {item.modo_preparo}
                 </Text>
 
-                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={style.button} onPress={() => {
+                    setView('form')
+                    setSelectedRecipe(item)
+                }}>
                     <Text style={style.textButton}>Editar</Text>
                 </TouchableOpacity>
 
@@ -75,11 +79,14 @@ export default function Recipes({navigation}) {
                 </View>
             ) : (
                 <View>
-                    <TouchableOpacity style={style.button} onPress={() => setView('list')}>
+                    <TouchableOpacity style={style.button} onPress={() => {
+                        setView('list')
+                        setSelectedRecipe(null)
+                        loadRecipes()
+                    }}>
                         <Text style={style.textButton}>VER Receitas</Text>
                     </TouchableOpacity>
-
-                    <AddRecipes></AddRecipes>
+                    <AddRecipes recipeToEdit={selectedRecipe}></AddRecipes>
                 </View>
             )}
         </ScrollView>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { TouchableOpacity, View, Text, FlatList, ScrollView } from "react-native";
 import { StyleSheet } from "react-native";
 import { getCategories } from "../services/Category.service";
-import AddCategory from "../components/AddCategory";
+import { AddCategory } from "../components/AddCategory";
 
 export default function Categories({navigation}) {
     const [view, setView] = useState('list')
